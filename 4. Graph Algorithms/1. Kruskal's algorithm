@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+#include <algorithm>
+using namespace std;
+
+struct edge
+{
+    int f;
+    int s;
+    int w;
+};
+
+bool compare(edge e1, edge e2)
+{
+    return e1.w < e2.w;
+}
+
+int find_parent(int *parent, int i)
+{
+    if(parent[i] == i)
+        return i;
+    return find_parent(parent, parent[i]);
+}
+
+void kruskal(edge *arr, int V, int E)
+{
+    // Sorting based on weights
+    sort(arr, arr + E, compare);
+    
+    int *parent = new int[V];
+    for(int i = 0; i < V; i++)
+        parent[i] = i;
+    
+    edge *output = new edge[V - 1];
+    
+    int count = 0;
+    for(int i = 0; i < E; i++)
+    {
+        int p1 = find_parent(parent, arr[i].f);
+        int p2 = find_parent(parent, arr[i].s);
+        if(p1 != p2)
+        {
+            output[count++] = arr[i];
+            parent[p1] = p2;
+            for(int i = 0; i < V; i++)
+                cout << parent[i] << " ";
+            cout << endl;
+        }
+        if(count == V - 1)
+            break;
+    }
+    
+    // Printing the output
+    for(int i = 0; i < V - 1; i++)
+    {
+        if(output[i].f < output[i].s)
+        {
+            cout << output[i].f << " "; 
+            cout << output[i].s << " "; 
+        }
+        else
+        {
+            cout << output[i].s << " "; 
+            cout << output[i].f << " "; 
+        }
+        cout << output[i].w << endl;
+    }
+    
+    delete []parent;
+    delete []output;
+}
+
+int main()
+{
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int V, E;
+    cin >> V >> E;
+    
+    edge *arr = new edge[E];
+    for(int i = 0; i < E; i++)
+        cin >> arr[i].f >> arr[i].s >> arr[i].w;
+    
+    kruskal(arr, V, E);
+    
+    delete []arr;
+}
