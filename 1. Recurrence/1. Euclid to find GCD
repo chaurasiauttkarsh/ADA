@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+int gcd(int a, int b) 
+{ 
+    if (a == 0) 
+    {
+        cout << b << " " << a << endl;
+        return b; 
+    }
+    cout << b << " " << a << endl;
+    return gcd(b % a, a); 
+} 
+  
+// Driver Code 
+int main() 
+{ 
+    int a, b;
+    cin >> a >> b;
+    cout << "GCD(" << a << ", " << b << ") = " << gcd(min(a, b), max(a, b))  << endl; 
+    return 0; 
+} 
